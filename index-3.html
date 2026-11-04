@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espresso Catering | Кофе шоп, Баянзүрх</title>
+<meta name="description" content="Espresso Catering: Олимп Плаза дахь тухтай кофе шоп. Меню, үнэ, ажлын цаг, байршил. Өдөр бүр 09:00-19:00.">
+<meta property="og:title" content="Espresso Catering">
+<meta property="og:description" content="Тухтай орчин, амттай кофе. Олимп Плаза, Баянзүрх. Өдөр бүр 09:00-19:00.">
+<meta name="theme-color" content="#1f1510">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espresso:#1f1510; --roast:#33241b; --cream:#f6efe4; --paper:#fbf7f0;
+    --gold:#b48a45; --gold-soft:#d9bd8a; --ink:#2a1e16; --muted:#7d6b5a; --line:#e5d8c4;
+    --ok:#3f6b4a; --err:#a43d2c;
+    --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+    --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:70px}
+  body{font-family:var(--sans);background:var(--cream);color:var(--ink);line-height:1.65;overflow-x:hidden}
+  a{color:inherit}
+  button{font-family:inherit}
+  .wrap{max-width:980px;margin:0 auto;padding:0 22px}
+
+  /* NAV */
+  header{position:fixed;inset:0 0 auto 0;z-index:20;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+  header.solid{background:rgba(31,21,16,.94);backdrop-filter:blur(10px);border-color:rgba(217,189,138,.18)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .logo{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-decoration:none}
+  .logo small{display:block;font-family:var(--sans);font-weight:500;font-size:8px;letter-spacing:.42em;color:var(--gold-soft);margin-top:-2px;text-align:center}
+  .nav nav{display:flex;align-items:center}
+  .nav nav a{font-size:13px;letter-spacing:.06em;color:#eadfce;text-decoration:none;margin-left:20px}
+  .nav nav a:hover{color:var(--gold-soft)}
+  .nav nav a.pill{border:1px solid var(--gold-soft);color:var(--gold-soft);padding:6px 14px}
+  @media(max-width:600px){.nav nav .hide-sm{display:none}.nav nav a{margin-left:14px}}
+
+  /* HERO */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;
+    background:
+      linear-gradient(180deg,rgba(21,14,10,.80) 0%,rgba(21,14,10,.66) 45%,rgba(21,14,10,.88) 100%),
+      url("photos/interior-1.jpg") center 35%/cover no-repeat,
+      linear-gradient(160deg,#2b1d15 0%,#1f1510 60%,#150e0a 100%);
+    overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:14px;border:1px solid rgba(217,189,138,.35);pointer-events:none}
+  .hero::after{content:"";position:absolute;inset:22px;border:1px solid rgba(217,189,138,.14);pointer-events:none}
+  .hero-inner{padding:110px 24px 90px;max-width:720px}
+  .mono{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border:1px solid var(--gold-soft);border-radius:50%;font-family:var(--serif);font-size:26px;font-weight:600;color:var(--gold-soft);letter-spacing:.05em;margin-bottom:26px}
+  .hero h1{font-family:var(--serif);font-weight:600;line-height:.95;letter-spacing:.14em;text-transform:uppercase;font-size:clamp(44px,12vw,92px)}
+  .hero .cat{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:16px;color:var(--gold-soft);font-size:12px;letter-spacing:.5em;text-transform:uppercase}
+  .hero .cat::before,.hero .cat::after{content:"";width:46px;height:1px;background:var(--gold)}
+  .hero p.lead{margin:30px auto 0;max-width:42ch;color:#e6d9c5;font-size:17px}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+  .btn{display:inline-block;padding:13px 28px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;text-decoration:none;border:1px solid var(--gold);color:var(--espresso);background:var(--gold-soft);transition:.25s;cursor:pointer}
+  .btn:hover{background:#fff;border-color:#fff}
+  .btn.ghost{background:transparent;color:var(--gold-soft)}
+  .btn.ghost:hover{background:var(--gold-soft);color:var(--espresso)}
+  .btn.dark{background:var(--espresso);border-color:var(--espresso);color:var(--gold-soft)}
+  .btn.dark:hover{background:var(--roast);border-color:var(--roast);color:#fff}
+  .btn[disabled]{opacity:.55;cursor:wait}
+  .scroll{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);width:1px;height:46px;background:linear-gradient(var(--gold-soft),transparent)}
+
+  /* SECTIONS */
+  section{padding:84px 0}
+  .kicker{display:block;text-align:center;font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+  h2{font-family:var(--serif);font-weight:600;text-align:center;font-size:clamp(34px,7vw,52px);line-height:1.05;letter-spacing:.02em}
+  .orn{display:flex;align-items:center;justify-content:center;gap:10px;margin:18px auto 0}
+  .orn::before,.orn::after{content:"";width:60px;height:1px;background:var(--gold-soft)}
+  .orn i{width:7px;height:7px;background:var(--gold);transform:rotate(45deg)}
+  .sub{text-align:center;color:var(--muted);margin-top:14px}
+
+  /* ABOUT */
+  .about{background:var(--paper)}
+  .about p.t{max-width:56ch;margin:30px auto 0;text-align:center;font-size:17.5px;color:#4b3b2e}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .fact{text-align:center;padding:22px 12px;border:1px solid var(--line);background:#fff}
+  .fact b{display:block;font-family:var(--serif);font-size:30px;font-weight:600;color:var(--gold)}
+  .fact span{font-size:13px;color:var(--muted);letter-spacing:.04em}
+  @media(max-width:560px){.facts{grid-template-columns:1fr}}
+
+  /* NEW PRODUCT */
+  .sm{background:linear-gradient(180deg,#fbeef0 0%,#f3f4e6 100%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sm-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
+  .sm-art svg{width:100%;max-width:230px;display:block;margin:0 auto;filter:drop-shadow(0 18px 22px rgba(120,60,70,.18))}
+  .sm-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .sm-tags span{font-size:11px;letter-spacing:.24em;text-transform:uppercase;padding:5px 12px;border:1px solid #cf7d8e;color:#a34a5d;background:rgba(255,255,255,.55)}
+  .sm-tags span:first-child{background:#a34a5d;color:#fff;border-color:#a34a5d}
+  .sm-txt h2{text-align:left}
+  .sm-mn{font-family:var(--serif);font-size:22px;color:#6f8f44;margin-top:2px}
+  .sm-desc{margin-top:14px;color:var(--ink);max-width:48ch}
+  .sm-buy{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}
+  .sm-price{font-family:var(--serif);font-size:38px;font-weight:600;color:#a34a5d}
+  .sm-fine{margin-top:12px;font-size:13px;color:var(--muted)}
+  @media(max-width:760px){.sm-grid{grid-template-columns:1fr;gap:24px;text-align:center}.sm-tags,.sm-buy{justify-content:center}.sm-txt h2{text-align:center}.sm-desc{margin-left:auto;margin-right:auto}}
+  .newp{background:var(--espresso);color:#fff;position:relative;overflow:hidden}
+  .newp::before{content:"";position:absolute;inset:14px;border:1px solid rgba(217,189,138,.3);pointer-events:none}
+  .newp .kicker{color:var(--gold-soft)}
+  .newp h2{color:#fff}
+  .newp .sub{color:#e6d9c5;max-width:52ch;margin-left:auto;margin-right:auto}
+  .badge{display:inline-block;margin:0 auto 18px;padding:5px 14px;border:1px solid var(--gold-soft);color:var(--gold-soft);font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+  .badge-wrap{text-align:center}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;border:1px solid rgba(217,189,138,.35);padding:22px 16px;text-align:center;background:rgba(255,255,255,.03)}
+  .steps li::before{content:counter(s);display:block;font-family:var(--serif);font-size:38px;line-height:1;color:var(--gold-soft);margin-bottom:8px}
+  .steps b{display:block;font-weight:600;margin-bottom:4px}
+  .steps span{font-size:13.5px;color:#d9ccb8}
+  @media(max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+  @media(max-width:420px){.steps{grid-template-columns:1fr}}
+  .newp .cta{margin-top:36px}
+
+  /* MENU */
+  .menu-sec{background:var(--cream)}
+  .tabs{display:flex;gap:8px;padding:30px 2px 8px;justify-content:center;flex-wrap:wrap}
+  .tab{font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:12px 18px;border:1px solid var(--gold-soft);background:transparent;color:var(--roast);cursor:pointer;transition:.2s;white-space:nowrap}
+  .tab:hover{background:rgba(180,138,69,.12)}
+  .tab[aria-selected="true"]{background:var(--espresso);color:var(--gold-soft);border-color:var(--espresso)}
+  .card{position:relative;max-width:660px;margin:26px auto 0;background:var(--paper);padding:40px 30px 30px;border:1px solid var(--gold-soft);box-shadow:0 18px 50px -24px rgba(42,30,22,.35)}
+  .card::before{content:"";position:absolute;inset:7px;border:1px solid var(--line);pointer-events:none}
+  .card h3{font-family:var(--serif);text-align:center;font-size:32px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+  .row{display:flex;align-items:center;gap:10px;padding:9px 0}
+  .row .n{font-family:var(--serif);font-size:20px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;line-height:1.2}
+  .row .n em{display:block;font-family:var(--sans);font-style:normal;font-size:12.5px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400}
+  .row .dots{flex:1;border-bottom:1px dotted #bba77f;min-width:10px;transform:translateY(4px)}
+  .row .p{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--gold);white-space:nowrap}
+  .note{text-align:center;color:var(--muted);font-size:13px;margin-top:24px}
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media(max-width:480px){.card{padding:32px 16px 22px}.row .n{font-size:16.5px}.row .p{font-size:18px}}
+
+  /* stepper */
+  .step{display:inline-flex;align-items:center;justify-content:flex-end;gap:2px;flex:none;width:100px}
+  .sb{width:34px;height:34px;border:1px solid var(--gold);background:transparent;color:var(--espresso);font-size:20px;line-height:1;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.15s}
+  .sb:hover{background:var(--gold-soft)}
+  .sb.plus{background:var(--espresso);border-color:var(--espresso);color:var(--gold-soft)}
+  .sb.plus:hover{background:var(--roast)}
+  .sq{min-width:26px;text-align:center;font-weight:600;font-size:15px}
+  .step:not(.on) .sb:first-child,.step:not(.on) .sq{display:none}
+
+  /* ORDER */
+  .order{background:var(--paper)}
+  .panel{max-width:680px;margin:36px auto 0;background:#fff;border:1px solid var(--gold-soft);padding:30px 26px;position:relative}
+  .panel::before{content:"";position:absolute;inset:6px;border:1px solid var(--line);pointer-events:none}
+  .panel > *{position:relative}
+  .empty{text-align:center;color:var(--muted);padding:14px 0}
+  .line{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .line .nm{flex:1;font-weight:500;line-height:1.3}
+  .line .nm small{display:block;color:var(--muted);font-weight:400}
+  .line .lt{min-width:84px;text-align:right;font-weight:600}
+  .total{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 6px;font-family:var(--serif);font-size:26px;font-weight:700}
+  .total span:last-child{color:var(--gold)}
+  .form{margin-top:18px;display:grid;gap:16px}
+  .f label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .f input[type=text],.f input[type=tel],.f select,.f textarea{width:100%;font:16px var(--sans);padding:12px 14px;border:1px solid #cdbb9c;background:var(--paper);color:var(--ink);border-radius:0;-webkit-appearance:none;appearance:none}
+  .f select{background-image:linear-gradient(45deg,transparent 50%,var(--gold) 50%),linear-gradient(135deg,var(--gold) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 15px) 50%;background-size:5px 5px;background-repeat:no-repeat;padding-right:40px}
+  .f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--gold);outline-offset:0}
+  .f textarea{min-height:76px;resize:vertical}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:520px){.two{grid-template-columns:1fr}}
+  .days{display:flex;gap:10px}
+  .days label{flex:1;margin:0;text-transform:none;letter-spacing:0;font-size:15px;color:var(--ink);border:1px solid #cdbb9c;padding:11px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;background:var(--paper)}
+  .days input{accent-color:var(--espresso)}
+  .days label.sel{border-color:var(--espresso);background:#f3ead9}
+  .err{color:var(--err);font-size:14px;min-height:1.2em}
+  .fine{font-size:13px;color:var(--muted);text-align:center}
+  .honey{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  .done{text-align:center}
+  .done h3{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--ok)}
+  .code{display:inline-block;margin:12px 0;padding:8px 22px;border:1px dashed var(--gold);font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:.12em;color:var(--espresso)}
+  .pay{text-align:left;margin:22px 0 6px;border:1px solid var(--line);background:var(--paper)}
+  .pay .r{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);font-size:15px}
+  .pay .r:last-child{border:none}
+  .pay .r span:first-child{color:var(--muted)}
+  .pay .r b{word-break:break-all;text-align:right}
+  .copy{margin-left:8px;border:1px solid var(--gold);background:transparent;color:var(--roast);font-size:12px;padding:4px 10px;cursor:pointer}
+  .copy:hover{background:var(--gold-soft)}
+  .done ol{text-align:left;max-width:46ch;margin:18px auto 0;padding-left:20px;color:#4b3b2e}
+  .done ol li{margin-bottom:6px}
+  .done .cta{margin-top:24px}
+
+  /* GALLERY */
+  .gallery{background:var(--cream)}
+  .shots{display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:repeat(2,minmax(0,1fr));grid-auto-flow:column;gap:14px;margin-top:38px;height:640px}
+  .shot{position:relative;margin:0;overflow:hidden;border:1px solid var(--gold-soft);padding:6px;background:var(--paper)}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s ease}
+  .shot:hover img{transform:scale(1.04)}
+  .shot figcaption{position:absolute;left:6px;right:6px;bottom:6px;padding:34px 16px 12px;color:#fff;font-size:12px;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(transparent,rgba(21,14,10,.72))}
+  .shot.tall{grid-row:1 / span 2}
+  @media(max-width:700px){.shots{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row;height:auto}.shot.tall{grid-row:auto;height:460px}.shot{height:260px}}
+
+  /* VISIT */
+  .visit{background:var(--paper)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
+  @media(max-width:700px){.cols{grid-template-columns:1fr}}
+  .box{background:#fff;border:1px solid var(--line);padding:28px}
+  .box h3{font-family:var(--serif);font-size:24px;font-weight:700;margin-bottom:14px;letter-spacing:.03em}
+  .hours{list-style:none}
+  .hours li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+  .hours li:last-child{border:none}
+  .box p{margin-bottom:10px;font-size:15px}
+  .box a.l{color:var(--gold);font-weight:600;text-decoration:none;border-bottom:1px solid var(--gold-soft)}
+  .map{margin-top:22px;border:1px solid var(--line);overflow:hidden}
+  .map iframe{display:block;width:100%;height:340px;border:0;filter:sepia(.18) saturate(.9)}
+
+  footer{background:var(--espresso);color:#cdbda6;text-align:center;padding:44px 0 90px;font-size:13px;letter-spacing:.06em}
+  footer .f-logo{font-family:var(--serif);font-size:22px;letter-spacing:.2em;color:#fff;text-transform:uppercase;margin-bottom:6px}
+
+  /* cart bar */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--espresso);color:#fff;border-top:1px solid var(--gold);padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:none;align-items:center;justify-content:space-between;gap:14px}
+  .bar.show{display:flex}
+  .bar b{font-family:var(--serif);font-size:22px;color:var(--gold-soft)}
+  .bar a{background:var(--gold-soft);color:var(--espresso);padding:11px 22px;text-decoration:none;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}.fade{animation:none}}
+</style>
+</head>
+<body>
+
+<!--
+  =====================================================================
+  ЗАСАХ ХЭСЭГ: зөвхөн энэ CONFIG-ийг засна. Бусад хэсгийг оролдох шаардлагагүй.
+  "ЗАСНА УУ" гэж тэмдэглэсэн зүйлсийг бодит мэдээллээр солино.
+  =====================================================================
+-->
+<script>
+const CONFIG = {
+  name: "Espresso Catering",
+  lead: "Тухтай орчин, амттай ундаа. Өдөр бүр 09:00 – 19:00.",
+  about: "Espresso Catering бол Олимп Плаза дахь кофе шоп. Эспрессо, латте, матча, шейк, цай, ade зэрэг ундааг өдөр бүр 09:00-19:00 цагт санал болгодог. Тухтай орчинд ирж амсаарай.",
+  facts: [["25+", "төрлийн ундаа"], ["5,000₮", "-өөс эхэлнэ"], ["09–19", "өдөр бүр ажиллана"]],
+
+  address: "Олимп Плаза, Баянзүрх дүүрэг, Улаанбаатар",
+  mapQuery: "Olymp Plaza, Bayanzurkh District, Ulaanbaatar",
+  phone: "+976 9494 4907",
+  instagram: "https://www.instagram.com/espressocatering_",
+  facebook: "https://www.facebook.com/mongolianlatteart",
+  tiktok: "",
+
+  // Ажлын цаг
+  hoursText: [["Даваа – Ням (өдөр бүр)", "09:00 – 19:00"]],
+
+  // ШИНЭ БҮТЭЭГДЭХҮҮН. Одоогоор null = сайтад харагдахгүй.
+  // Нэмэхдээ доорх мөрийг "newProduct: null," -ын оронд хуулж тавина (үнэ мянган төгрөгөөр, 12.0 = 12,000₮):
+  //   newProduct: { name: "Strawberry Matcha", mn: "Гүзээлзгэнэтэй матча", price: 12.0,
+  //     desc: "Богино тайлбар.", tags: ["Шинэ", "Матча", "Гүзээлзгэнэ"] },
+  newProduct: null,
+
+  // Үнэ мянган төгрөгөөр (9.9 = 9,900₮). Хэвлэсэн менютэй тулгасан.
+  menu: [
+    { tab: "Coffee", title: "Coffee", items: [
+      ["Espresso Single", 5.0], ["Espresso Double", 6.0],
+      ["Espresso Strawberry Soda", 10.0], ["Orange Espresso", 11.0],
+      ["Americano", 8.0], ["Caffe Latte", 9.0],
+      ["Vanilla Latte", 9.9], ["Caramel Latte", 9.9], ["Hazelnut Latte", 9.9],
+      ["Cappuccino", 8.5], ["Choco Latte", 9.9], ["Flat White", 8.5]
+    ]},
+    { tab: "Non-coffee", title: "Non-Coffee", items: [
+      ["Matcha Latte", 9.0], ["Strawberry Milk", 9.0], ["Banana Milk", 9.0], ["Chocolate Milk", 9.0]
+    ]},
+    { tab: "Shake", title: "Shake", items: [
+      ["Vanilla Milk Shake", 12.0], ["Banana Milk Shake", 12.0], ["Strawberry Milk Shake", 12.0], ["Chocolate Milk Shake", 12.0]
+    ]},
+    { tab: "Hot tea", title: "Hot Tea", items: [
+      ["Ginger Lemon Tea", 6.0], ["Anis Tea", 6.0, "Анистай цай"], ["Sea Buckthorn Tea", 6.0, "Чацарганатай цай"]
+    ]},
+    { tab: "Iced tea", title: "Iced Tea", items: [["Lemon Iced Tea", 10.0], ["Peach Iced Tea", 10.0]]},
+    { tab: "Ade", title: "Ade", items: [["Grapefruit Ade", 11.0], ["Green Apple Ade", 11.0], ["Blue Lemon Ade", 11.0]]}
+  ],
+
+  photos: [
+    { src: "photos/interior-2.jpg", cap: "Тухтай суудал", tall: true, pos: "center 55%" },
+    { src: "photos/interior-1.jpg", cap: "Бааран тал", pos: "center 58%" },
+    { src: "photos/interior-3.jpg", cap: "Дэлгэрэнгүй", pos: "center 50%" }
+  ],
+
+  // ЗОЧИН ТООЛОХ (заавал биш, үнэгүй). Дор хаяж нэгийг нь бөглө.
+  goatCounter: "",   // goatcounter.com дээр бүртгүүлээд авсан код. Жишээ: "espressocatering"
+  gaId: ""           // эсвэл Google Analytics ID: "G-XXXXXXXXXX"
+};
+</script>
+
+<header id="top">
+  <div class="wrap nav">
+    <a href="#hero" class="logo">Espresso<small>CATERING</small></a>
+    <nav>
+      <a class="hide-sm" href="#new">Шинэ</a>
+      <a class="hide-sm" href="#menu">Меню</a>
+      <a class="hide-sm" href="#visit">Байршил</a>
+      <a class="pill" href="#visit">Залгах / Байршил</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="hero" id="hero">
+    <div class="hero-inner">
+      <div class="mono">EC</div>
+      <h1>Espresso</h1>
+      <div class="cat">Catering</div>
+      <p class="lead" id="heroLead"></p>
+      <div class="cta">
+        <a class="btn" href="#menu">Меню харах</a>
+        <a class="btn ghost" id="callBtn" href="#">Залгах</a>
+      </div>
+    </div>
+    <span class="scroll"></span>
+  </div>
+
+  <section class="about" id="about">
+    <div class="wrap reveal">
+      <span class="kicker">Танилцуулга</span>
+      <h2>Espresso Catering</h2>
+      <div class="orn"><i></i></div>
+      <p class="t" id="aboutText"></p>
+      <div class="facts" id="facts"></div>
+    </div>
+  </section>
+
+  <!-- ШИНЭ БҮТЭЭГДЭХҮҮН: Strawberry Matcha -->
+  <section class="sm" id="new">
+    <div class="wrap reveal">
+      <div class="sm-grid">
+        <div class="sm-art" aria-hidden="true">
+          <svg viewBox="0 0 200 280" role="img" aria-label="">
+            <defs>
+              <linearGradient id="gm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b9d28a"/><stop offset="1" stop-color="#8fb560"/></linearGradient>
+              <linearGradient id="gp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6a9b8"/><stop offset="1" stop-color="#e5718a"/></linearGradient>
+              <clipPath id="cup"><path d="M44 70 L156 70 L142 250 Q141 262 129 262 L71 262 Q59 262 58 250 Z"/></clipPath>
+            </defs>
+            <g clip-path="url(#cup)">
+              <rect x="30" y="70" width="140" height="200" fill="#fff6ef"/>
+              <rect x="30" y="165" width="140" height="110" fill="url(#gp)"/>
+              <path d="M30 165 Q65 150 100 165 T170 165 L170 185 Q135 172 100 185 T30 185 Z" fill="#f2d9c9" opacity=".85"/>
+              <rect x="30" y="92" width="140" height="78" fill="url(#gm)" opacity=".95"/>
+              <circle cx="78" cy="205" r="5" fill="#fff" opacity=".35"/><circle cx="118" cy="222" r="7" fill="#fff" opacity=".3"/><circle cx="96" cy="238" r="4" fill="#fff" opacity=".35"/>
+            </g>
+            <path d="M44 70 L156 70 L142 250 Q141 262 129 262 L71 262 Q59 262 58 250 Z" fill="none" stroke="#d9bd8a" stroke-width="3"/>
+            <rect x="38" y="62" width="124" height="10" rx="5" fill="#d9bd8a"/>
+            <rect x="106" y="10" width="9" height="62" rx="4.5" fill="#d9bd8a" transform="rotate(14 110 40)"/>
+            <path d="M138 84 q10 -16 24 -8 q8 16 -8 28 q-18 -2 -16 -20z" fill="#d94a5f"/>
+            <path d="M143 80 l6 -9 l4 8 l8 -4 l-4 9z" fill="#5f8a3c"/>
+          </svg>
+        </div>
+        <div class="sm-txt">
+          <div class="sm-tags" id="smTags"></div>
+          <h2 id="smName"></h2>
+          <p class="sm-mn" id="smMn"></p>
+          <p class="sm-desc" id="smDesc"></p>
+          <div class="sm-buy">
+            <div class="sm-price" id="smPrice"></div>
+            <a class="btn dark" href="#menu">Меню харах</a>
+          </div>
+          <p class="sm-fine" id="smFine"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-sec" id="menu">
+    <div class="wrap reveal">
+      <span class="kicker">Меню</span>
+      <h2>Манай ундаа</h2>
+      <div class="orn"><i></i></div>
+      
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="card" id="card"></div>
+      <p class="note">Үнэ төгрөгөөр. Үнэ өөрчлөгдөж болно.</p>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="wrap reveal">
+      <span class="kicker">Орчин</span>
+      <h2>Тухтай, дулаан</h2>
+      <div class="orn"><i></i></div>
+      <div class="shots" id="shots"></div>
+    </div>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="wrap reveal">
+      <span class="kicker">Зочилоорой</span>
+      <h2>Байршил, цаг</h2>
+      <div class="orn"><i></i></div>
+      <div class="cols">
+        <div class="box"><h3>Ажлын цаг</h3><ul class="hours" id="hoursList"></ul></div>
+        <div class="box">
+          <h3>Холбоо барих</h3>
+          <p id="addr"></p>
+          <p>Утас: <a class="l" id="phoneLink" href="#"></a></p>
+          <p id="socials"></p>
+          <p><a class="l" id="dirLink" href="#" target="_blank" rel="noopener">Чиглэл авах</a></p>
+        </div>
+      </div>
+      <div class="map"><iframe id="mapFrame" title="Байршил" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="f-logo">Espresso</div>
+  <div>CATERING · Кофе шоп</div>
+</footer>
+
+<noscript><p style="padding:20px;text-align:center">Энэ хуудас ажиллахын тулд JavaScript шаардлагатай. Утсаар холбогдоно уу.</p></noscript>
+
+<script>
+(function(){
+  var c = CONFIG;
+  function $(id){ return document.getElementById(id); }
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+  function money(t){ return Math.round(t).toLocaleString("en-US") + "₮"; }
+
+  /* ---------- static texts ---------- */
+  $("heroLead").textContent = c.lead;
+  $("aboutText").textContent = c.about;
+  $("addr").textContent = c.address;
+  var tel = "tel:" + c.phone.replace(/[^+\d]/g, "");
+  $("callBtn").href = tel; $("phoneLink").href = tel; $("phoneLink").textContent = c.phone;
+  $("dirLink").href = "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(c.mapQuery);
+  $("mapFrame").src = "https://www.google.com/maps?q=" + encodeURIComponent(c.mapQuery) + "&output=embed";
+
+  c.facts.forEach(function(f){
+    var d = el("div", "fact"); d.appendChild(el("b", "", f[0])); d.appendChild(el("span", "", f[1])); $("facts").appendChild(d);
+  });
+  c.hoursText.forEach(function(h){
+    var li = el("li"); li.appendChild(el("span", "", h[0])); li.appendChild(el("strong", "", h[1])); $("hoursList").appendChild(li);
+  });
+  var soc = $("socials");
+  [["Instagram", c.instagram], ["Facebook", c.facebook], ["TikTok", c.tiktok]].forEach(function(s){
+    if(!s[1]) return;
+    if(soc.childNodes.length) soc.appendChild(document.createTextNode("  ·  "));
+    var a = el("a", "l", s[0]); a.href = s[1]; a.target = "_blank"; a.rel = "noopener"; soc.appendChild(a);
+  });
+
+  function money(t){ return Math.round(t).toLocaleString("en-US") + "₮"; }
+
+  /* ---------- menu ---------- */
+  var MENU = c.menu.slice();
+  if(c.newProduct){ MENU.unshift({ tab: "Шинэ", title: "Шинэ ундаа", items: [[c.newProduct.name, c.newProduct.price, c.newProduct.mn]] }); }
+  var tabsEl = $("tabs"), card = $("card");
+  function show(i){
+    var g = MENU[i];
+    Array.prototype.forEach.call(tabsEl.children, function(t, j){ t.setAttribute("aria-selected", j === i ? "true" : "false"); });
+    card.innerHTML = "";
+    card.appendChild(el("h3", "", g.title));
+    g.items.forEach(function(it){
+      var price = Math.round(it[1] * 1000);
+      var r = el("div", "row");
+      var n = el("div", "n", it[0]);
+      if(it[2]) n.appendChild(el("em", "", it[2]));
+      r.appendChild(n); r.appendChild(el("div", "dots")); r.appendChild(el("div", "p", money(price)));
+      card.appendChild(r);
+    });
+    card.classList.remove("fade"); void card.offsetWidth; card.classList.add("fade");
+  }
+  MENU.forEach(function(g, i){
+    var b = el("button", "tab", g.tab); b.type = "button"; b.setAttribute("role", "tab");
+    b.addEventListener("click", function(){ show(i); }); tabsEl.appendChild(b);
+  });
+
+  /* ---------- new product ---------- */
+  (function(){
+    var p = c.newProduct;
+    if(!p){ $("new").remove(); var nl = document.querySelector('a[href="#new"]'); if(nl) nl.remove(); return; }
+    var price = Math.round(p.price * 1000);
+    $("smName").textContent = p.name;
+    $("smMn").textContent = p.mn;
+    $("smDesc").textContent = p.desc;
+    $("smPrice").textContent = money(price);
+    p.tags.forEach(function(t){ $("smTags").appendChild(el("span", "", t)); });
+    $("smFine").textContent = "Кафед ирж амсаарай. Өдөр бүр " + c.hoursText[0][1] + ".";
+  })();
+
+  /* ---------- gallery ---------- */
+  var shots = $("shots");
+  $("gallery").style.display = "none";
+  c.photos.forEach(function(p){
+    var fig = el("figure", "shot" + (p.tall ? " tall" : "")); fig.style.display = "none";
+    var im = new Image(); im.alt = "Espresso Catering: " + p.cap;
+    if(p.pos) im.style.objectPosition = p.pos;
+    im.onload = function(){ fig.style.display = ""; $("gallery").style.display = ""; };
+    im.onerror = function(){ fig.remove(); };
+    fig.appendChild(im); fig.appendChild(el("figcaption", "", p.cap)); shots.appendChild(fig);
+    im.src = p.src;
+  });
+
+  /* ---------- header + reveal ---------- */
+  var hdr = document.querySelector("header");
+  function onScroll(){ hdr.classList.toggle("solid", window.scrollY > 40); }
+  onScroll(); window.addEventListener("scroll", onScroll, {passive: true});
+  var els = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold: .12});
+    els.forEach(function(e){ io.observe(e); });
+  } else { els.forEach(function(e){ e.classList.add("in"); }); }
+
+  /* ---------- visitor counter ---------- */
+  if(c.goatCounter){
+    var g = document.createElement("script"); g.async = true;
+    g.setAttribute("data-goatcounter", "https://" + c.goatCounter + ".goatcounter.com/count");
+    g.src = "//gc.zgo.at/count.js"; document.head.appendChild(g);
+  }
+  if(c.gaId){
+    var s = document.createElement("script"); s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + c.gaId;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag("js", new Date()); gtag("config", c.gaId);
+  }
+
+  show(0);
+})();
+</script>
+</body>
+</html>
